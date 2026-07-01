@@ -1,0 +1,115 @@
+# V6 Step 8 Final Evaluation Report
+
+## 1. Purpose of V6
+
+The purpose of V6 is to extend the V5 single-seed results into publication-ready multi-seed results. V6 uses three random projection seeds to evaluate RP method, projection dimension, and feature setting stability.
+
+## 2. Difference Between V6 and V5
+
+V5 used seed27 for 45 RP + RanPAC experiments. V6 uses seed27, seed42, and seed82 for 135 RP-only RanPAC experiments and reports mean +/- std. V6 Step 8 evaluates existing RP and RanPAC outputs without rerunning Step 7.
+
+## 3. Why V6 Is RP-only
+
+Random Projection is treated as the cancellable biometric transformation. The No-RP baseline is not a cancellable transformed template, so it is excluded from the V6 RP-only analysis. V6 Step 8 summarizes 135 RP-only rows.
+
+## 4. Multi-seed Setting
+
+V6 uses three seeds: 27, 42, and 82. Each feature/method/dimension setting has three seed runs, and mean_std_v6.csv records num_seeds = 3.
+
+## 5. EER Calculation Rule
+
+EER uses a score-based verification interpretation: genuine score = true_score and impostor score = max_non_true_score. NaN/Inf scores are filtered; enrollment-aware EER uses enrollment_aware_counted_flags = True and is reported as enrollment_aware_eer.
+
+## 6. Best by mean accuracy
+
+- Setting: emb_bg_d500
+- Mean enrollment-aware accuracy: 0.818863
+- Mean macro-F1: 0.785632
+- Mean EER: 0.214210
+
+## 7. Best by mean EER
+
+- Setting: emb_bg_d500
+- Mean EER: 0.214210
+- Mean enrollment-aware accuracy: 0.818863
+- Mean macro-F1: 0.785632
+
+## 8. Best balanced setting
+
+- Setting: emb_bg_d500
+- Overall rank score: 3
+- Accuracy rank: 1
+- Macro-F1 rank: 1
+- EER rank: 1
+
+## 9. Feature setting comparison
+
+| feature_setting_full | mean_enrollment_aware_accuracy_mean | mean_enrollment_aware_macro_f1_mean | mean_enrollment_aware_eer_mean | mean_runtime_seconds_mean |
+| --- | --- | --- | --- | --- |
+| embedding_resnet1d | 0.666863 | 0.589397 | 0.359400 | 17.094509 |
+| both_pqrst_resnet1d | 0.630364 | 0.540147 | 0.387560 | 16.958225 |
+| fiducial_pqrst | 0.197406 | 0.110481 | 0.678378 | 16.680222 |
+
+Feature-level results show,embedding_resnet1d has the highest mean enrollment-aware accuracy.
+
+## 10. RP method comparison
+
+| rp_method_full | mean_enrollment_aware_accuracy_mean | mean_enrollment_aware_macro_f1_mean | mean_enrollment_aware_eer_mean | mean_runtime_seconds_mean |
+| --- | --- | --- | --- | --- |
+| bernoulli_gaussian | 0.523918 | 0.439047 | 0.456903 | 16.692535 |
+| sparse | 0.522143 | 0.437638 | 0.457723 | 16.619591 |
+| gaussian | 0.520113 | 0.435275 | 0.459364 | 16.730725 |
+| sign | 0.488281 | 0.402897 | 0.478848 | 16.699990 |
+| srht | 0.436601 | 0.351851 | 0.522725 | 17.812086 |
+
+Method-level results show,bernoulli_gaussian has the highest mean enrollment-aware accuracy.
+
+## 11. Projection dimension comparison
+
+| projection_dim | mean_enrollment_aware_accuracy_mean | mean_enrollment_aware_macro_f1_mean | mean_enrollment_aware_eer_mean | mean_runtime_seconds_mean |
+| --- | --- | --- | --- | --- |
+| 100.000000 | 0.411583 | 0.306019 | 0.542908 | 3.947543 |
+| 200.000000 | 0.497910 | 0.413052 | 0.480420 | 6.943245 |
+| 500.000000 | 0.585140 | 0.520953 | 0.402009 | 39.842168 |
+
+Dimension-level results show,dim500 has the highest mean enrollment-aware accuracy.
+
+## 12. Seed stability discussion
+
+Each V6 setting has three seeds. The std columns in mean_std_v6.csv describe sensitivity to RP method seed. Top settings with lower std indicate more stable method behavior across seeds.
+
+## 13. Online stability curve discussion
+
+stability_top5.png shows the Top 5 balanced settings across three seed prediction logs, downsampled every 100 samples to show mean running enrollment-aware accuracy. It summarizes the streaming online learning behavior of RanPAC.
+
+## 14. Performance-efficiency trade-off discussion
+
+| projection_dim | mean_enrollment_aware_accuracy_mean | mean_enrollment_aware_eer_mean | mean_runtime_seconds_mean | estimated_template_size_mb |
+| --- | --- | --- | --- | --- |
+| 100.000000 | 0.411583 | 0.542908 | 3.947543 | 13.772202 |
+| 200.000000 | 0.497910 | 0.480420 | 6.943245 | 27.544403 |
+| 500.000000 | 0.585140 | 0.402009 | 39.842168 | 68.861008 |
+
+Projection dimension affects runtime and template storage. dim500 is the main V6 trade-off point; dim100 and dim200 are efficiency-oriented settings.
+
+## 15. Thesis writing notes
+
+- Scope: Random Projection-based cancellable transformations under the same RanPAC online protocol.
+- RanPAC is fixed as the online learning evaluator.
+- No-RP is excluded because it is not a cancellable transformed template.
+- Metrics include enrollment-aware accuracy, macro-F1, and enrollment-aware EER.
+
+## 16. Limitations
+
+- V6 uses UofTDB sit-only 5-second segments.
+- V6 does not include dim1000; dim1000 is left for future extended analysis.
+- EER adapts multi-class identification scores into a verification-style interpretation.
+- No-RP baseline rows are generated by Step 6 but excluded here.
+
+## Output paths
+
+- Final per-experiment table: `F:\ECG\results\eval_v6\tables\final_v6_135.csv`
+- Mean/std table: `F:\ECG\results\eval_v6\tables\mean_std_v6.csv`
+- Figures: `F:\ECG\results\eval_v6\figures`
+- EER curves: `F:\ECG\results\eval_v6\eer_curves`
+- Report: `F:\ECG\results\eval_v6\reports\v6_report.md`
