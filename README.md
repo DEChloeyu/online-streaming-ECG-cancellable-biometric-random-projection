@@ -132,9 +132,7 @@ results/
 - Projection dimension comparison: `results/eval_v6/tables/by_dim.csv`
 - Final report: `results/eval_v6/reports/v6_report.md`
 
-## Environment Notes
 
-The project uses Python notebooks with common scientific-computing and machine-learning libraries, including NumPy, pandas, PyTorch, SciPy, scikit-learn, NeuroKit2, and Matplotlib.
 
 Large binary experiment artifacts are tracked with Git LFS. After cloning, install Git LFS and run:
 
