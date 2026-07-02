@@ -18,7 +18,7 @@ The central idea is to transform ECG feature representations into cancellable pr
 
 ## Dataset and Signal Setup
 
-The experiments use the UofT ECG Database (UofTDB), focusing on the sit condition.
+The experiments use the UofT ECG Database (UofTDB) link is https://www.comm.utoronto.ca/~biometrics/databases.html, focusing on the sit condition.
 
 - Sampling rate: 200 Hz
 - Segment length: 5 seconds
